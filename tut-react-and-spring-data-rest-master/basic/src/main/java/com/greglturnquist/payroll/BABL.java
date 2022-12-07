@@ -15,13 +15,16 @@
  */
 package com.greglturnquist.payroll;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
-public interface EmployeeRepository extends CrudRepository<Employee, Long> { // <1>
+@SpringBootApplication
+public class BABL {
 
+	public static void main(String[] args) {
+		SpringApplication.run(BABL.class, args);
+	}
 }
 // end::code[]

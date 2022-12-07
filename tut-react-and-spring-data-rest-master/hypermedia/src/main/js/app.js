@@ -103,7 +103,7 @@ class App extends React.Component {
 		return (
 			<div>
 				<CreateDialog attributes={this.state.attributes} onCreate={this.onCreate}/>
-				<EmployeeList employees={this.state.employees}
+				<UserList employees={this.state.employees}
 							  links={this.state.links}
 							  pageSize={this.state.pageSize}
 							  onNavigate={this.onNavigate}
@@ -169,7 +169,7 @@ class CreateDialog extends React.Component {
 }
 // end::create-dialog[]
 
-class EmployeeList extends React.Component {
+class UserList extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -218,7 +218,7 @@ class EmployeeList extends React.Component {
 	// tag::employee-list-render[]
 	render() {
 		const employees = this.props.employees.map(employee =>
-			<Employee key={employee._links.self.href} employee={employee} onDelete={this.props.onDelete}/>
+			<User key={employee._links.self.href} employee={employee} onDelete={this.props.onDelete}/>
 		);
 
 		const navLinks = [];
@@ -259,7 +259,7 @@ class EmployeeList extends React.Component {
 }
 
 // tag::employee[]
-class Employee extends React.Component {
+class User extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -273,7 +273,7 @@ class Employee extends React.Component {
 	render() {
 		return (
 			<tr>
-				<td>{this.props.employee.firstName}</td>
+				<td>{this.props.employee.userName}</td>
 				<td>{this.props.employee.lastName}</td>
 				<td>{this.props.employee.description}</td>
 				<td>

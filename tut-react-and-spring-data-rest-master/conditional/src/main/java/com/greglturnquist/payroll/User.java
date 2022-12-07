@@ -24,24 +24,21 @@ import javax.persistence.Version;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * @author Greg Turnquist
- */
 // tag::code[]
 @Entity
-public class Employee {
+public class User {
 
 	private @Id @GeneratedValue Long id;
-	private String firstName;
+	private String userName;
 	private String lastName;
 	private String description;
 
 	private @Version @JsonIgnore Long version;
 
-	private Employee() {}
+	private User() {}
 
-	public Employee(String firstName, String lastName, String description) {
-		this.firstName = firstName;
+	public User(String userName, String lastName, String description) {
+		this.userName = userName;
 		this.lastName = lastName;
 		this.description = description;
 	}
@@ -50,9 +47,9 @@ public class Employee {
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Employee employee = (Employee) o;
+		User employee = (User) o;
 		return Objects.equals(id, employee.id) &&
-			Objects.equals(firstName, employee.firstName) &&
+			Objects.equals(userName, employee.userName) &&
 			Objects.equals(lastName, employee.lastName) &&
 			Objects.equals(description, employee.description) &&
 			Objects.equals(version, employee.version);
@@ -61,7 +58,7 @@ public class Employee {
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, firstName, lastName, description, version);
+		return Objects.hash(id, userName, lastName, description, version);
 	}
 
 	public Long getId() {
@@ -73,11 +70,11 @@ public class Employee {
 	}
 
 	public String getFirstName() {
-		return firstName;
+		return userName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setFirstName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getLastName() {
@@ -106,9 +103,9 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee{" +
+		return "User{" +
 			"id=" + id +
-			", firstName='" + firstName + '\'' +
+			", userName='" + userName + '\'' +
 			", lastName='" + lastName + '\'' +
 			", description='" + description + '\'' +
 			", version=" + version +

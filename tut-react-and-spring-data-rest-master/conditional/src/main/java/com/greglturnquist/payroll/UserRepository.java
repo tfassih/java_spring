@@ -17,11 +17,9 @@ package com.greglturnquist.payroll;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
-public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
 }
 // end::code[]

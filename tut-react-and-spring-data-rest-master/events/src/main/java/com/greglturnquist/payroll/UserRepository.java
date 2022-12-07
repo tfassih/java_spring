@@ -15,18 +15,11 @@
  */
 package com.greglturnquist.payroll;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
-@SpringBootApplication
-public class ReactAndSpringDataRestApplication {
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ReactAndSpringDataRestApplication.class, args);
-	}
 }
 // end::code[]

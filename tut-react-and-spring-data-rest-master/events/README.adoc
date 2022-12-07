@@ -54,7 +54,7 @@ Spring Data REST generates several https://docs.spring.io/spring-data/rest/docs/
 include::src/main/java/com/greglturnquist/payroll/EventHandler.java[tag=code]
 ----
 
-<1> `@RepositoryEventHandler(Employee.class)` flags this class to trap events based on *employees*.
+<1> `@RepositoryEventHandler(User.class)` flags this class to trap events based on *employees*.
 <2> `SimpMessagingTemplate` and `EntityLinks` are autowired from the application context.
 <3> The `@HandleXYZ` annotations flag the methods that need to listen to events. These methods must be public.
 ====

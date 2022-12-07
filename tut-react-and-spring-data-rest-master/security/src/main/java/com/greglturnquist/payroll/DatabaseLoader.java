@@ -22,18 +22,16 @@ import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
 @Component
 public class DatabaseLoader implements CommandLineRunner {
 
-	private final EmployeeRepository employees;
+	private final UserRepository employees;
 	private final ManagerRepository managers;
 
 	@Autowired
-	public DatabaseLoader(EmployeeRepository employeeRepository,
+	public DatabaseLoader(UserRepository employeeRepository,
 						  ManagerRepository managerRepository) {
 
 		this.employees = employeeRepository;
@@ -52,17 +50,17 @@ public class DatabaseLoader implements CommandLineRunner {
 			new UsernamePasswordAuthenticationToken("greg", "doesn't matter",
 				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
 
-		this.employees.save(new Employee("Frodo", "Baggins", "ring bearer", greg));
-		this.employees.save(new Employee("Bilbo", "Baggins", "burglar", greg));
-		this.employees.save(new Employee("Gandalf", "the Grey", "wizard", greg));
+		this.employees.save(new User("Frodo", "Baggins", "ring bearer", greg));
+		this.employees.save(new User("Bilbo", "Baggins", "burglar", greg));
+		this.employees.save(new User("Gandalf", "the Grey", "wizard", greg));
 
 		SecurityContextHolder.getContext().setAuthentication(
 			new UsernamePasswordAuthenticationToken("oliver", "doesn't matter",
 				AuthorityUtils.createAuthorityList("ROLE_MANAGER")));
 
-		this.employees.save(new Employee("Samwise", "Gamgee", "gardener", oliver));
-		this.employees.save(new Employee("Merry", "Brandybuck", "pony rider", oliver));
-		this.employees.save(new Employee("Peregrin", "Took", "pipe smoker", oliver));
+		this.employees.save(new User("Samwise", "Gamgee", "gardener", oliver));
+		this.employees.save(new User("Merry", "Brandybuck", "pony rider", oliver));
+		this.employees.save(new User("Peregrin", "Took", "pipe smoker", oliver));
 
 		SecurityContextHolder.clearContext();
 	}

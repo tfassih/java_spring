@@ -32,11 +32,11 @@ Spring Data REST addresses how simple this problem can be if some assumptions ar
 
 Domain objects form the cornerstone of any Spring Data REST-based application. In this section, you will build an application to track the employees for a company. Kick that off by creating a data type, as follows:
 
-.src/main/java/com/greglturnquist/payroll/Employee.java
+.src/main/java/com/greglturnquist/payroll/User.java
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/Employee.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/User.java[tag=code]
 ----
 
 <1> `@Entity` is a JPA annotation that denotes the whole class for storage in a relational table.
@@ -51,11 +51,11 @@ NOTE: Spring Data REST is not confined to JPA. It supports many NoSQL data store
 
 Another key piece of a Spring Data REST application is a corresponding repository definition, as follows:
 
-.src/main/java/com/greglturnquist/payroll/EmployeeRepository.java
+.src/main/java/com/greglturnquist/payroll/UserRepository.java
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/EmployeeRepository.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/UserRepository.java[tag=code]
 ----
 
 <1> The repository extends Spring Data Commons' `CrudRepository` and plugs in the type of the domain object and its primary key
@@ -78,7 +78,7 @@ include::src/main/java/com/greglturnquist/payroll/DatabaseLoader.java[tag=code]
 
 <1> This class is marked with Spring's `@Component` annotation so that it is automatically picked up by `@SpringBootApplication`.
 <2> It implements Spring Boot's `CommandLineRunner` so that it gets run after all the beans are created and registered.
-<3> It uses constructor injection and autowiring to get Spring Data's automatically created `EmployeeRepository`.
+<3> It uses constructor injection and autowiring to get Spring Data's automatically created `UserRepository`.
 <4> The `run()` method is invoked with command line arguments, loading up your data.
 ====
 
@@ -136,7 +136,7 @@ $ curl localhost:8080/api
 When you ping the root node, you get back a collection of links wrapped in a http://stateless.co/hal_specification.html[HAL-formatted JSON document].
 
 * `_links` is the collection of available links.
-* `employees` points to an aggregate root for the employee objects defined by the `EmployeeRepository` interface.
+* `employees` points to an aggregate root for the employee objects defined by the `UserRepository` interface.
 * `profile` is an IANA-standard relation and points to discoverable metadata about the entire service. We explore this in a later section.
 
 You can further dig into this service by navigating the `employees` link. The following command (shown with its output) does so:
@@ -147,7 +147,7 @@ $ curl localhost:8080/api/employees
 {
   "_embedded" : {
     "employees" : [ {
-      "firstName" : "Frodo",
+      "userName" : "Frodo",
       "lastName" : "Baggins",
       "description" : "ring bearer",
       "_links" : {
@@ -173,7 +173,7 @@ You can decide to view that one employee if you wish. The following command (sho
 ----
 $ curl localhost:8080/api/employees/1
 {
-  "firstName" : "Frodo",
+  "userName" : "Frodo",
   "lastName" : "Baggins",
   "description" : "ring bearer",
   "_links" : {
@@ -191,9 +191,9 @@ That is all well and good, but you are probably itching to create some new entri
 
 ====
 ----
-$ curl -X POST localhost:8080/api/employees -d "{\"firstName\": \"Bilbo\", \"lastName\": \"Baggins\", \"description\": \"burglar\"}" -H "Content-Type:application/json"
+$ curl -X POST localhost:8080/api/employees -d "{\"userName\": \"Bilbo\", \"lastName\": \"Baggins\", \"description\": \"burglar\"}" -H "Content-Type:application/json"
 {
-  "firstName" : "Bilbo",
+  "userName" : "Bilbo",
   "lastName" : "Baggins",
   "description" : "burglar",
   "_links" : {
@@ -354,11 +354,11 @@ WARNING: JavaScript does not lock down data structures as other languages do. Yo
 
 In this code, the function loads data through `client`, a https://promisesaplus.com/[Promise-compliant] instance of rest.js. When it is done retrieving from `/api/employees`, it then invokes the function inside `done()` and sets the state based on its HAL document (`response.entity._embedded.employees`). See the structure of `curl /api/employees` <<Touring your REST service,earlier>> and see how it maps onto this structure.
 
-When the state is updated, the `render()` function is invoked by the framework. The employee state data is included in the creation of the `<EmployeeList />` React component as an input parameter.
+When the state is updated, the `render()` function is invoked by the framework. The employee state data is included in the creation of the `<UserList />` React component as an input parameter.
 
-The following listing shows the definition for an `EmployeeList`:
+The following listing shows the definition for an `UserList`:
 
-.src/main/js/app.js - EmployeeList component
+.src/main/js/app.js - UserList component
 ====
 [source,javascript,indent=0]
 ----
@@ -373,7 +373,7 @@ Consider the following listing:
 ====
 [source,javascript]
 ----
-<Employee key={employee._links.self.href} data={employee} />
+<User key={employee._links.self.href} data={employee} />
 ----
 ====
 
@@ -408,9 +408,9 @@ JSX also includes bits and pieces of http://es6-features.org/#Constants[ES6]. Th
 Worried about mixing logic with your structure? React's APIs encourage nice, declarative structure combined with state and properties. Instead of mixing a bunch of unrelated JavaScript and HTML, React encourages building simple components with small bits of related state and properties that work well together. It lets you look at a single component and understand the design. Then they are easy to combine together for bigger structures.
 ====
 
-Next, you need to actually define what an `<Employee />` is, as follows:
+Next, you need to actually define what an `<User />` is, as follows:
 
-.src/main/js/app.js - Employee component
+.src/main/js/app.js - User component
 ====
 [source,javascript,indent=0]
 ----
@@ -420,7 +420,7 @@ include::src/main/js/app.js[tag=employee]
 
 This component is very simple. It has a single HTML table row wrapped around the employee's three properties. The property itself is `this.props.employee`. Notice how passing in a JavaScript object makes it easy to pass along data fetched from the server.
 
-Because this component does not manage any state nor deal with user input, there is nothing else to do. This might tempt you to cram it into the `<EmployeeList />` up above. Do not do it! Splitting your app up into small components that each do one job will make it easier to build up functionality in the future.
+Because this component does not manage any state nor deal with user input, there is nothing else to do. This might tempt you to cram it into the `<UserList />` up above. Do not do it! Splitting your app up into small components that each do one job will make it easier to build up functionality in the future.
 
 The last step is to render the whole thing, as follows:
 
@@ -444,7 +444,7 @@ Remember using cURL to create new entries? Do that again with the following comm
 
 ====
 ----
-curl -X POST localhost:8080/api/employees -d "{\"firstName\": \"Bilbo\", \"lastName\": \"Baggins\", \"description\": \"burglar\"}" -H "Content-Type:application/json"
+curl -X POST localhost:8080/api/employees -d "{\"userName\": \"Bilbo\", \"lastName\": \"Baggins\", \"description\": \"burglar\"}" -H "Content-Type:application/json"
 ----
 ====
 

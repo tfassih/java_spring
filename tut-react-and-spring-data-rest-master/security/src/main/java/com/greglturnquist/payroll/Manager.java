@@ -27,9 +27,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
 @Entity
 public class Manager {

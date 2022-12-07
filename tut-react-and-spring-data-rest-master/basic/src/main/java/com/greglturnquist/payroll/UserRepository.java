@@ -15,13 +15,11 @@
  */
 package com.greglturnquist.payroll;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.CrudRepository;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
-public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
+public interface UserRepository extends CrudRepository<User, Long> { // <1>
 
 }
 // end::code[]

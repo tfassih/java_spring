@@ -62,7 +62,7 @@ The last bit of modeling security is to associate employees with a manager. In t
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/Employee.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/User.java[tag=code]
 ----
 
 <1> The manager attribute is linked by JPA's `@ManyToOne` attribute. `Manager` does not need the `@OneToMany`, because you have not defined the need to look that up.
@@ -76,7 +76,7 @@ Spring Security supports a multitude of options when it comes to defining securi
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/EmployeeRepository.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/UserRepository.java[tag=code]
 ----
 
 <1> `@PreAuthorize` at the top of the interface restricts access to people with `ROLE_MANAGER`.
@@ -142,7 +142,7 @@ One part of a good user experience is when the application can automatically app
 include::src/main/java/com/greglturnquist/payroll/SpringDataRestEventHandler.java[tag=code]
 ----
 
-<1> `@RepositoryEventHandler(Employee.class)` flags this event handler as applying only to `Employee` objects. The `@HandleBeforeCreate` annotation gives you a chance to alter the incoming `Employee` record before it gets written to the database.
+<1> `@RepositoryEventHandler(User.class)` flags this event handler as applying only to `User` objects. The `@HandleBeforeCreate` annotation gives you a chance to alter the incoming `User` record before it gets written to the database.
 ====
 
 In this situation, you can look up the current user's security context to get the user's name. Then you can look up the associated manager by using `findByName()` and apply it to the manager. There is a little extra glue code to create a new manager if that person does not exist in the system yet. However, that is mostly to support initialization of the database. In a real production system, that code should be removed and instead depend on the DBAs or Security Ops team to properly maintain the user data store.
@@ -191,7 +191,7 @@ $ curl -v -u greg:turnquist localhost:8080/api/employees/1
 < Date: Tue, 25 Aug 2015 15:57:34 GMT
 <
 {
-  "firstName" : "Frodo",
+  "userName" : "Frodo",
   "lastName" : "Baggins",
   "description" : "ring bearer",
   "manager" : {
@@ -215,7 +215,7 @@ Finally, inside the data itself, you can see a new attribute: `manager`. You can
 
 == Displaying Manager Information in the UI
 
-With all these modifications in the backend, you can now shift to updating things in the frontend. First of all, you can show an employee's manager inside the `<Employee />` React component:
+With all these modifications in the backend, you can now shift to updating things in the frontend. First of all, you can show an employee's manager inside the `<User />` React component:
 
 ====
 [source,javascript,indent=0]

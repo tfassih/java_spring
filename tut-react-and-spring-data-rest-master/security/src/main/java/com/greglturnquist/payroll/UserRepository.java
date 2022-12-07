@@ -16,12 +16,25 @@
 package com.greglturnquist.payroll;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
-public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Long> {
+@PreAuthorize("hasRole('ROLE_MANAGER')") // <1>
+public interface UserRepository extends PagingAndSortingRepository<User, Long> {
+
+	@Override
+	@PreAuthorize("#employee?.manager == null or #employee?.manager?.name == authentication?.name")
+	User save(@Param("employee") User employee);
+
+	@Override
+	@PreAuthorize("@employeeRepository.findById(#id)?.manager?.name == authentication?.name")
+	void deleteById(@Param("id") Long id);
+
+	@Override
+	@PreAuthorize("#employee?.manager?.name == authentication?.name")
+	void delete(@Param("employee") User employee);
 
 }
 // end::code[]

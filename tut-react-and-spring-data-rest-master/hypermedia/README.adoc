@@ -34,11 +34,11 @@ A key feature of REST is to include links to relevant resources. For example, if
 
 To get underway with using frontend hypermedia controls, you need to turn on some extra controls. Spring Data REST provides paging support. To use it, tweak the repository definition as follows:
 
-.src/main/java/com/greglturnquist/payroll/EmployeeRepository.java
+.src/main/java/com/greglturnquist/payroll/UserRepository.java
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/EmployeeRepository.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/UserRepository.java[tag=code]
 ----
 ====
 
@@ -66,7 +66,7 @@ $ curl "localhost:8080/api/employees?size=2"
   },
   "_embedded" : {
     "employees" : [ {
-      "firstName" : "Frodo",
+      "userName" : "Frodo",
       "lastName" : "Baggins",
       "description" : "ring bearer",
       "_links" : {
@@ -75,7 +75,7 @@ $ curl "localhost:8080/api/employees?size=2"
         }
       }
     }, {
-      "firstName" : "Bilbo",
+      "userName" : "Bilbo",
       "lastName" : "Baggins",
       "description" : "burglar",
       "_links" : {
@@ -175,7 +175,7 @@ Sometimes, a `rel` by itself is not enough. In this fragment of code, it also pl
 
 == Grabbing JSON Schema Metadata
 
-After navigating to `employees` with the size-based query, the `employeeCollection` is available. In the previous section, we displayed that data inside `<EmployeeList />`. In this section, you are performing another call to grab some https://json-schema.org/[JSON Schema metadata] found at `/api/profile/employees/`.
+After navigating to `employees` with the size-based query, the `employeeCollection` is available. In the previous section, we displayed that data inside `<UserList />`. In this section, you are performing another call to grab some https://json-schema.org/[JSON Schema metadata] found at `/api/profile/employees/`.
 
 You can see the data yourself by running the following `curl` command (shown with its output):
 
@@ -183,9 +183,9 @@ You can see the data yourself by running the following `curl` command (shown wit
 ----
 $ curl http://localhost:8080/api/profile/employees -H "Accept:application/schema+json"
 {
-  "title" : "Employee",
+  "title" : "User",
   "properties" : {
-    "firstName" : {
+    "userName" : {
       "title" : "First name",
       "readOnly" : false,
       "type" : "string"
@@ -307,7 +307,7 @@ include::src/main/js/app.js[tag=navigate]
 ----
 ====
 
-This is defined at the top, inside `App.onNavigate`. Again, this is to allow managing the state of the UI in the top component. After passing `onNavigate()` down to the `<EmployeeList />` React component, the following handlers are coded up to handle clicking on some buttons:
+This is defined at the top, inside `App.onNavigate`. Again, this is to allow managing the state of the UI in the top component. After passing `onNavigate()` down to the `<UserList />` React component, the following handlers are coded up to handle clicking on some buttons:
 
 ====
 [source,javascript,indent=0]
@@ -318,7 +318,7 @@ include::src/main/js/app.js[tag=handle-nav]
 
 Each of these functions intercepts the default event and stops it from bubbling up. Then it invokes the `onNavigate()` function with the proper hypermedia link.
 
-Now you can conditionally display the controls based on which links appear in the hypermedia links in `EmployeeList.render`:
+Now you can conditionally display the controls based on which links appear in the hypermedia links in `UserList.render`:
 
 ====
 [source,javascript,indent=0]
@@ -344,7 +344,7 @@ include::src/main/js/app.js[tag=employee]
 ----
 ====
 
-This updated version of the Employee component shows an extra entry (a delete button) at the end of the row. It is registered to invoke `this.handleDelete` when clicked. The `handleDelete()` function can then invoke the callback passed down while supplying the contextually important `this.props.employee` record.
+This updated version of the User component shows an extra entry (a delete button) at the end of the row. It is registered to invoke `this.handleDelete` when clicked. The `handleDelete()` function can then invoke the callback passed down while supplying the contextually important `this.props.employee` record.
 
 IMPORTANT: This again shows that it is easiest to manage state in the top component, in one place. This might not _always_ be the case. However, oftentimes, managing state in one place makes it easier to keep things straight and simpler. By invoking the callback with component-specific details (`this.props.onDelete(this.props.employee)`), it is very easy to orchestrate behavior between components.
 
@@ -403,7 +403,7 @@ In the following image, you can see the `CreateDialog` with the metadata plugged
 
 image::https://github.com/spring-guides/tut-react-and-spring-data-rest/raw/master/hypermedia/images/hypermedia-2.png[]
 
-This really shows the power of using hypermedia coupled with domain-driven metadata (JSON Schema). The web page does not have to know which field is which. Instead, the user can _see_ it and know how to use it. If you added another field to the `Employee` domain object, this pop-up would automatically display it.
+This really shows the power of using hypermedia coupled with domain-driven metadata (JSON Schema). The web page does not have to know which field is which. Instead, the user can _see_ it and know how to use it. If you added another field to the `User` domain object, this pop-up would automatically display it.
 
 == Review
 

@@ -22,12 +22,10 @@ import org.springframework.data.rest.core.annotation.RepositoryEventHandler;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
 @Component
-@RepositoryEventHandler(Employee.class) // <1>
+@RepositoryEventHandler(User.class) // <1>
 public class SpringDataRestEventHandler {
 
 	private final ManagerRepository managerRepository;
@@ -39,7 +37,7 @@ public class SpringDataRestEventHandler {
 
 	@HandleBeforeCreate
 	@HandleBeforeSave
-	public void applyUserInformationUsingSecurityContext(Employee employee) {
+	public void applyUserInformationUsingSecurityContext(User employee) {
 
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		Manager manager = this.managerRepository.findByName(name);

@@ -20,53 +20,39 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Version;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-/**
- * @author Greg Turnquist
- */
 // tag::code[]
-@Entity
-public class Employee {
+@Entity // <1>
+public class User {
 
-	private @Id @GeneratedValue Long id;
-	private String firstName;
+	private @Id @GeneratedValue Long id; // <2>
+	private String userName;
 	private String lastName;
 	private String description;
 
-	private @Version @JsonIgnore Long version;
+	public User() {}
 
-	private @ManyToOne Manager manager; // <1>
-
-	private Employee() {}
-
-	public Employee(String firstName, String lastName, String description, Manager manager) { // <2>
-		this.firstName = firstName;
+	public User(String userName, String lastName, String description) {
+		this.userName = userName;
 		this.lastName = lastName;
 		this.description = description;
-		this.manager = manager;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
-		Employee employee = (Employee) o;
-		return Objects.equals(id, employee.id) &&
-			Objects.equals(firstName, employee.firstName) &&
-			Objects.equals(lastName, employee.lastName) &&
-			Objects.equals(description, employee.description) &&
-			Objects.equals(version, employee.version) &&
-			Objects.equals(manager, employee.manager);
+		User user = (User) o;
+		return Objects.equals(id, user.id) &&
+			Objects.equals(userName, user.userName) &&
+			Objects.equals(lastName, user.lastName) &&
+			Objects.equals(description, user.description);
 	}
 
 	@Override
 	public int hashCode() {
 
-		return Objects.hash(id, firstName, lastName, description, version, manager);
+		return Objects.hash(id, userName, lastName, description);
 	}
 
 	public Long getId() {
@@ -77,12 +63,12 @@ public class Employee {
 		this.id = id;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getLastName() {
@@ -101,31 +87,13 @@ public class Employee {
 		this.description = description;
 	}
 
-	public Long getVersion() {
-		return version;
-	}
-
-	public void setVersion(Long version) {
-		this.version = version;
-	}
-
-	public Manager getManager() {
-		return manager;
-	}
-
-	public void setManager(Manager manager) {
-		this.manager = manager;
-	}
-
 	@Override
 	public String toString() {
-		return "Employee{" +
+		return "User{" +
 			"id=" + id +
-			", firstName='" + firstName + '\'' +
+			", userName='" + userName + '\'' +
 			", lastName='" + lastName + '\'' +
 			", description='" + description + '\'' +
-			", version=" + version +
-			", manager=" + manager +
 			'}';
 	}
 }

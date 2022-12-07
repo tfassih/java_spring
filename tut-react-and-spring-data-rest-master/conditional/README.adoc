@@ -14,13 +14,13 @@ By versioning resources on the backend and using ETags in the frontend, it is po
 
 == Versioning REST Resources
 
-To support versioning of resources, define a version attribute for your domain objects that need this type of protection. The following listing shows how to do so for the `Employee` object:
+To support versioning of resources, define a version attribute for your domain objects that need this type of protection. The following listing shows how to do so for the `User` object:
 
-.src/main/java/com/greglturnquist/payroll/Employee.java
+.src/main/java/com/greglturnquist/payroll/User.java
 ====
 [source,java]
 ----
-include::src/main/java/com/greglturnquist/payroll/Employee.java[tag=code]
+include::src/main/java/com/greglturnquist/payroll/User.java[tag=code]
 ----
 ====
 
@@ -106,9 +106,9 @@ NOTE: The specification for https://promisesaplus.com/[Promises/A+] actually def
 
 With your `UpdateDialog` React component defined and nicely linked to the top-level `onUpdate` function, the last step is to wire it into the existing layout of components.
 
-The `CreateDialog` created in the previous section was put at the top of the `EmployeeList` because there is only one instance. However, `UpdateDialog` is tied directly to specific employees. So you can see it plugged in below in the `Employee` React component:
+The `CreateDialog` created in the previous section was put at the top of the `UserList` because there is only one instance. However, `UpdateDialog` is tied directly to specific employees. So you can see it plugged in below in the `User` React component:
 
-.src/main/js/app.js - Employee with UpdateDialog
+.src/main/js/app.js - User with UpdateDialog
 ====
 [source,javascript,indent=0]
 ----
@@ -163,4 +163,4 @@ It is certainly nice to know when you are editing a bad record. But is it best t
 
 The logic to fetch resources is very similar in both `loadFromServer` and `onNavigate`. Do you see ways to avoid duplicate code?
 
-You put the JSON Schema metadata to good use in building up the `CreateDialog` and the `UpdateDialog` inputs. Do you see other places to use the metadata to makes things more generic? Imagine you wanted to add five more fields to `Employee.java`. What would it take to update the UI?
+You put the JSON Schema metadata to good use in building up the `CreateDialog` and the `UpdateDialog` inputs. Do you see other places to use the metadata to makes things more generic? Imagine you wanted to add five more fields to `User.java`. What would it take to update the UI?

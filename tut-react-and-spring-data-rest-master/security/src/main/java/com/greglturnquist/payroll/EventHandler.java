@@ -26,12 +26,10 @@ import org.springframework.hateoas.server.EntityLinks;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-/**
- * @author Greg Turnquist
- */
+
 // tag::code[]
 @Component
-@RepositoryEventHandler(Employee.class)
+@RepositoryEventHandler(User.class)
 public class EventHandler {
 
 	private final SimpMessagingTemplate websocket;
@@ -45,29 +43,29 @@ public class EventHandler {
 	}
 
 	@HandleAfterCreate
-	public void newEmployee(Employee employee) {
+	public void newEmployee(User employee) {
 		this.websocket.convertAndSend(
 				MESSAGE_PREFIX + "/newEmployee", getPath(employee));
 	}
 
 	@HandleAfterDelete
-	public void deleteEmployee(Employee employee) {
+	public void deleteEmployee(User employee) {
 		this.websocket.convertAndSend(
 				MESSAGE_PREFIX + "/deleteEmployee", getPath(employee));
 	}
 
 	@HandleAfterSave
-	public void updateEmployee(Employee employee) {
+	public void updateEmployee(User employee) {
 		this.websocket.convertAndSend(
 				MESSAGE_PREFIX + "/updateEmployee", getPath(employee));
 	}
 
 	/**
-	 * Take an {@link Employee} and get the URI using Spring Data REST's {@link EntityLinks}.
+	 * Take an {@link User} and get the URI using Spring Data REST's {@link EntityLinks}.
 	 *
 	 * @param employee
 	 */
-	private String getPath(Employee employee) {
+	private String getPath(User employee) {
 		return this.entityLinks.linkForItemResource(employee.getClass(),
 				employee.getId()).toUri().getPath();
 	}
