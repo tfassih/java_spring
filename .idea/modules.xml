@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/java_spring.iml" filepath="$PROJECT_DIR$/.idea/java_spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/react-and-spring-data-rest.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/react-and-spring-data-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/basic/react-and-spring-data-rest-basic.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/basic/react-and-spring-data-rest-basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/conditional/react-and-spring-data-rest-conditional.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/conditional/react-and-spring-data-rest-conditional.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/events/react-and-spring-data-rest-events.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/events/react-and-spring-data-rest-events.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/hypermedia/react-and-spring-data-rest-hypermedia.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/hypermedia/react-and-spring-data-rest-hypermedia.iml" />
+      <module fileurl="file://$PROJECT_DIR$/tut-react-and-spring-data-rest-master/security/react-and-spring-data-rest-security.iml" filepath="$PROJECT_DIR$/tut-react-and-spring-data-rest-master/security/react-and-spring-data-rest-security.iml" />
+    </modules>
+  </component>
+</project>
